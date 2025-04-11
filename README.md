@@ -75,19 +75,24 @@ Para executar os scripts deste projeto, você precisará das seguintes bibliotec
 Para executar este projeto e reproduzir os resultados:
 
 1. Clone o repositório
+
 2. Defina o Python com `pyenv local 3.12.1`
+
 3. Configure o ambiente:
 ```
 poetry env use 3.12.1
 poetry install --no-root
 poetry lock
 ```
+
 4. Gere o arquivo de testes:
 ```
 python src/create_measurements.py
 ```
 _(A geração do arquivo pode levar cerca de 10 minutos.)_
+
 5. Certifique-se de instalar as versões especificadas das bibliotecas Dask, Polars e DuckDB
+
 6. Execute os scripts com:
 ```
 poetry run python src/using_python.py

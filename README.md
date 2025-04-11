@@ -1,15 +1,19 @@
-# Um Bilhão de Linhas: Desafio de Processamento de Dados com Python
+# 📊 Um Bilhão de Linhas: Desafio de Processamento de Dados com Python
 
-## Introdução
+## 🚀 Visão Geral
 
-O objetivo deste projeto é demonstrar como processar eficientemente um arquivo de dados massivo contendo 1 bilhão de linhas (~14GB), especificamente para calcular estatísticas (Incluindo agregação e ordenação que são operações pesadas) utilizando Python. 
+Este projeto tem como objetivo mostrar como **processar um arquivo massivo de 1 bilhão de linhas (~14GB)** usando Python e bibliotecas modernas para extrair estatísticas como temperatura mínima, média e máxima por estação meteorológica — tudo isso com foco em eficiência e performance.
 
-Este desafio foi inspirado no [The One Billion Row Challenge](https://github.com/gunnarmorling/1brc), originalmente proposto para Java.
+Inspirado no famoso [One Billion Row Challenge](https://github.com/gunnarmorling/1brc), originalmente proposto em Java, a proposta aqui é mostrar como Python também pode resolver este tipo de tarefa.
 
-O arquivo de dados consiste em medições de temperatura de várias estações meteorológicas. Cada registro segue o formato `<string: nome da estação>;<double: medição>`, com a temperatura sendo apresentada com precisão de uma casa decimal.
+## 📓 Estrutura do Arquivo
 
-Aqui estão dez linhas de exemplo do arquivo:
+Cada linha do arquivo representa uma medição de temperatura de uma estação meteorológica, no formato:
+```
+<string: nome da estação>;<double: medição>
+```
 
+Exemplo de 10 linhas:
 ```
 Hamburg;12.0
 Bulawayo;8.9
@@ -23,7 +27,14 @@ Conakry;31.2
 Istanbul;23.0
 ```
 
-O desafio é desenvolver um programa Python capaz de ler esse arquivo e calcular a temperatura mínima, média (arredondada para uma casa decimal) e máxima para cada estação, exibindo os resultados em uma tabela ordenada por nome da estação.
+## 🎯 Objetivo
+
+Para cada estação, calcular:
+- **Temperatura mínima**
+- **Temperatura média** (arredondada para uma casa decimal)
+- **Temperatura máxima**
+
+Os resultados devem ser exibidos em uma tabela ordenada pelo nome da estação:
 
 | station      | min_temperature | mean_temperature | max_temperature |
 |--------------|-----------------|------------------|-----------------|
@@ -49,13 +60,42 @@ O desafio é desenvolver um programa Python capaz de ler esse arquivo e calcular
 | Ürümqi       | -42.1           | 7.4              | 56.7            |
 | İzmir        | -34.4           | 17.9             | 67.9            |
 
-## Dependências
+## 🧰 Dependências
 
 Para executar os scripts deste projeto, você precisará das seguintes bibliotecas:
 
 * Polars: `0.20.3`
 * DuckDB: `0.10.0`
 * Dask[complete]: `^2024.2.0`
+
+## ⚙️ Como Executar
+
+
+
+Para executar este projeto e reproduzir os resultados:
+
+1. Clone o repositório
+2. Defina o Python com `pyenv local 3.12.1`
+3. Configure o ambiente:
+```
+poetry env use 3.12.1
+poetry install --no-root
+poetry lock
+```
+4. Gere o arquivo de testes:
+```
+python src/create_measurements.py
+```
+_(A geração do arquivo pode levar cerca de 10 minutos.)_
+5. Certifique-se de instalar as versões especificadas das bibliotecas Dask, Polars e DuckDB
+6. Execute os scripts com:
+```
+poetry run python src/using_python.py
+poetry run python src/using_pandas.py
+poetry run python src/using_dask.py
+poetry run python src/using_polars.py
+poetry run python src/using_duckdb.py` 
+```
 
 ## Resultados
 
@@ -70,33 +110,9 @@ Os testes foram realizados em um laptop equipado com um processador M1 da Apple 
 | Python + Polars | 33.86 sec |
 | Python + Duckdb | 14.98 sec |
 
-Obrigado por [Koen Vossen](https://github.com/koenvo) pela implementação em Polars e [Arthur Julião](https://github.com/ArthurJ) pela implementação em Python e Bash 
+## 🔧 Bônus
 
-## Conclusão
-
-Este desafio destacou claramente a eficácia de diversas bibliotecas Python na manipulação de grandes volumes de dados. Métodos tradicionais como Bash (25 minutos), Python puro (20 minutos) e até mesmo o Pandas (5 minutos) demandaram uma série de táticas para implementar o processamento em "lotes", enquanto bibliotecas como Dask, Polars e DuckDB provaram ser excepcionalmente eficazes, requerendo menos linhas de código devido à sua capacidade inerente de distribuir os dados em "lotes em streaming" de maneira mais eficiente. O DuckDB se sobressaiu, alcançando o menor tempo de execução graças à sua estratégia de execução e processamento de dados.
-
-Esses resultados enfatizam a importância de selecionar a ferramenta adequada para análise de dados em larga escala, demonstrando que Python, com as bibliotecas certas, é uma escolha poderosa para enfrentar desafios de big data.
-
-Duckdb vence tambem com 1 milhao de linhas, realmente é o melhor
-
-## Como Executar
-
-Para executar este projeto e reproduzir os resultados:
-
-1. Clone esse repositório
-2. Definir a versao do Python usando o `pyenv local 3.12.1`
-2. `poetry env use 3.12.1`, `poetry install --no-root` e `poetry lock --no-update`
-3. Execute o comando `python src/create_measurements.py` para gerar o arquivo de teste
-4. Tenha paciência e vá fazer um café, vai demorar uns 10 minutos para gerar o arquivo
-5. Certifique-se de instalar as versões especificadas das bibliotecas Dask, Polars e DuckDB
-6. Execute os scripts `poetry run python src/using_python.py`, `poetry run python src/using_pandas.py`, `poetry run python src/using_dask.py`, `poetry run python src/using_polars.py` e `poetry run python src/using_duckdb.py` através de um terminal ou ambiente de desenvolvimento que suporte Python.
-
-Este projeto destaca a versatilidade do ecossistema Python para tarefas de processamento de dados, oferecendo valiosas lições sobre escolha de ferramentas para análises em grande escala.
-
-## Bonus
-
-Para rodar o script Bash descrito, você precisa seguir alguns passos simples. Primeiro, assegure-se de que você tenha um ambiente Unix-like, como Linux ou macOS, que suporta scripts Bash nativamente. Além disso, verifique se as ferramentas utilizadas no script (`wc`, `head`, `pv`, `awk`, e `sort`) estão instaladas em seu sistema. A maioria dessas ferramentas vem pré-instalada em sistemas Unix-like, mas `pv` (Pipe Viewer) pode precisar ser instalado manualmente.
+Verifique se as ferramentas utilizadas no script (`wc`, `head`, `pv`, `awk`, e `sort`) estão instaladas em seu sistema. Se necessário instale `pv` (Pipe Viewer) pode precisar ser instalado manualmente.
 
 ### Instalando o Pipe Viewer (pv)
 
@@ -133,8 +149,15 @@ Neste exemplo, apenas as primeiras 1000 linhas serão processadas.
 
 Ao executar o script, você verá a barra de progresso (se pv estiver instalado corretamente) e, eventualmente, a saída esperada no terminal ou em um arquivo de saída, se você decidir modificar o script para direcionar a saída.
 
-## Conclusão
+## 🧠 Conclusão
 
 Este desafio destacou claramente a eficácia de diversas bibliotecas Python na manipulação de grandes volumes de dados. Métodos tradicionais como Bash (25 minutos), Python puro (20 minutos) e até mesmo o Pandas (5 minutos) demandaram uma série de táticas para implementar o processamento em "lotes", enquanto bibliotecas como Dask, Polars e DuckDB provaram ser excepcionalmente eficazes, requerendo menos linhas de código devido à sua capacidade inerente de distribuir os dados em "lotes em streaming" de maneira mais eficiente. O DuckDB se sobressaiu, alcançando o menor tempo de execução graças à sua estratégia de execução e processamento de dados.
 
 Esses resultados enfatizam a importância de selecionar a ferramenta adequada para análise de dados em larga escala, demonstrando que Python, com as bibliotecas certas, é uma escolha poderosa para enfrentar desafios de big data.
+
+## Agradecimentos
+
+- Obrigado:
+    - [Luciano](https://suajornadadedados.com.br/) pela aula no JD
+    - [Koen Vossen](https://github.com/koenvo) pela implementação em Polars
+    - [Arthur Julião](https://github.com/ArthurJ) pela implementação em Python e Bash 
